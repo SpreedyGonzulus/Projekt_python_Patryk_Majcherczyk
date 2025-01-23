@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyszukiwarka haseł</title>
+    <style>
+        /* Tło ustawione na obrazek pepe.jpg */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/pepe.jpg'); /* Ścieżka do obrazu */
+            background-size: cover; /* Dopasowanie tła do ekranu */
+            background-position: center; /* Wyśrodkowanie tła */
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8); /* Przezroczystość tła kontenera */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button.delete {
+            background-color: red;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.delete:hover {
+            background-color: darkred;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        li strong {
+            color: #333;
+        }
+        form.inline {
+            display: inline;
+            margin-top: 5px;
+        }
+        p {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wyszukiwarka danych</h1>
+        <!-- Formularz wyszukiwania -->
+        <form method="POST">
+            <label for="query">Szukaj:</label>
+            <input type="text" id="query" name="query" placeholder="Wpisz nazwę strony lub email" value="{{ query }}">
+            <button type="submit">Szukaj</button>
+        </form>
+
+        <h2>Wyniki:</h2>
+        {% if results %}
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <strong>Strona:</strong> {{ result.split()[0] }}<br>
+                        <strong>Email i hasło:</strong> {{ result.split()[1] }}
+                        <!-- Formularz usuwania pojedynczego rekordu -->
+                        <form method="POST" action="/delete_record" class="inline">
+                            <input type="hidden" name="record" value="{{ result.strip() }}">
+                            <input type="hidden" name="query" value="{{ query }}">
+                            <button type="submit" class="delete">Usuń</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Brak wyników pasujących do zapytania.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
