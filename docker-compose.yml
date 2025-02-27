@@ -1,0 +1,10 @@
+services:
+  python:
+    build: .
+    container_name: stronka
+    restart: unless-stopped
+    ports:
+      - "80:5000"
+
+
+
