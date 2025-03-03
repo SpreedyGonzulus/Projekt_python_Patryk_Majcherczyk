@@ -3,10 +3,10 @@ name: Projekt_pyth
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -29,5 +29,5 @@ jobs:
           debug: true
           script: |
             cd /app/Projekt_python_Patryk_Majcherczyk
-            git pull origin master
+            git pull origin main
             docker compose up -d
